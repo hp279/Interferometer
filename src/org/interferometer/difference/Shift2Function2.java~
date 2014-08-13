@@ -1,0 +1,21 @@
+//package org.interferometer;
+
+//import org.interferometer.Function;
+ 
+// delta f(x) = f(x) - f(x - s)
+public class Shift2Function2 extends DiffFunction2
+{
+  Function2 f;
+  double s;
+  
+  public Shift2Function2(Function2 f, double s)
+  {
+	this.f = f;
+	this.s = s;
+  }
+  
+  public double invoke(double x, double y)
+  {
+	return f.invoke(x, y) - f.invoke(x, y-s);
+  }
+}

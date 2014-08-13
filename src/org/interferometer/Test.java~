@@ -1,0 +1,47 @@
+//package org.interferometer;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileNotFoundException;
+
+public class Test
+{
+  public static void main(String args[])
+  {
+  // создаём табличную функцию из значений в input.txt
+	TableFunction fun = new TableFunction(0, 100, 100);
+	double s = 10;
+	try
+	{
+	  FileInputStream fin = new FileInputStream("input.txt");
+	  fun.read( new DataInputStream(fin) );
+	
+	// создаём разностную функцию
+	  DiffFunction deltaf = new ShiftFunction(fun, s);
+	
+	// восстанавливаем исходную функцию по разностной
+	  final double hl = 1;
+	  final halpha = 0.5; 
+	  DiffFunction helder = new DiffFunction() // предполагаем, что функция удовлетворяет условию Гёльдера с такими константами
+	  {
+		  public double invoke(double x)
+		  {
+			return hl*Math.pow(x, halpha);
+		  }
+	  };
+	
+	  RestoredTableFunction fun2 = new RestoredTableFunction(0, 100, 100, helder);
+	  fun2.restoreByShift(deltaf, s);
+	
+	// записываем восстановленную функцию в output.txt - должно получиться близко к исходной функции
+	  FileOutputStream fout = new FileOutputStream("output.txt");
+	  fun2.write( new DataOutputStream(fout) );
+	 }
+	 catch(FileNotFoundException ex)
+	 {
+	  ex.printStackTrace();
+	 }
+  }
+}

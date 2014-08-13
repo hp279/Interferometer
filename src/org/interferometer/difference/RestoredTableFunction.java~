@@ -1,0 +1,30 @@
+//package org.interferometer;
+
+import java.lang.Math;
+
+// функция, восстановленная из разности
+public class RestoredTableFunction extends TableFunction
+{ 
+  DiffFunction cont_modul;   // оценка сверху модуля непрерывности
+  public RestoredTableFunction(double min, double max, int n, DiffFunction cont_modul)
+  {
+	super(min, max, n);
+	this.cont_modul = cont_modul;
+  }
+  
+ // восстановление функции по сдвигу с заданным шагом и величиной сдвига
+  public void restoreByShift(DiffFunction deltaf, double s)
+  {
+  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  }
+
+  // восстановление функции по двум сдвигам с заданным шагом и величинами сдвигов
+  public void restoreByShift(DiffFunction delta1f, double s1, Function delta2f, double s2)
+  {
+  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  }
+
+}
+
+
+ 

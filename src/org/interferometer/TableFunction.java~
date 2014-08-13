@@ -1,0 +1,85 @@
+//package org.interferometer;
+
+import java.lang.Math;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.PrintStream;
+import java.util.Scanner;
+
+ 
+// функция задаётся таблицей значений, в промежутках - линейная интерполяция
+// размер таблицы - не меньше 2
+public class TableFunction extends Function
+{
+  double a, b;
+  double delta;
+  double y[];
+  
+  public TableFunction(double a, double b, double y[])
+  {
+	this.a = a;
+	this.b = b;
+	this.delta = (b-a) / (y.length-1);
+	this.y = y;
+  }
+  
+  public TableFunction(double a, double b, int n)
+  {
+	this(a, b, new double[n]);
+  }
+  
+  public final double min()
+  {
+	return a;
+  }
+  public final double max()
+  {
+	return b;
+  }
+  public final double size()
+  {
+	return y.length - 1;
+  }
+  public final double step()
+  {
+	return delta;
+  }
+  
+  protected void setValue(int i, double f)
+  {
+	y[i] = f;
+  }
+
+  public void read(DataInputStream in)
+	{ read(new Scanner(in)); } 
+  public void read(Scanner s)
+  {
+	//s.useDelimiter(" ");
+	for(int i=0; i<size(); ++i)
+	{
+	  setValue(i, s.nextDouble());
+	}		
+  } 
+    
+  public void write(DataOutputStream out)
+	{ write(new PrintStream(out)); }
+  public void write(PrintStream out)
+  {
+	for(int i=0; i<size(); ++i)
+	{
+	  	out.printf("%f\n", y[i]);
+
+	}
+  }
+
+    
+  // линейная интерполяция (может быть, лучше квадратичная????????????????????)
+  public double value(double x)
+  {
+	double part = (x-a)/delta;
+	int i = (int)Math.floor(part);
+	return y[i] + (y[i+1]-y[i]) * (part - i);
+  }
+  
+}

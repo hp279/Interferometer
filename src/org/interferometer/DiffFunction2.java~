@@ -1,0 +1,23 @@
+
+public abstract class DiffFunction2 implements BinaryFunction
+{
+
+  // градиент - вектор из 2 аргументов
+ public double[] diff(double x, double y, double h)
+  {
+	double[] result = new double[2];
+	result[0] = (invoke(x+h, y) - invoke(x-h, y))/(2*h);
+	result[1] = (invoke(x, y+h) - invoke(x, y-h))/(2*h);
+	return result;
+  }
+  
+  // матрица 2-х производных - размер 2 на 2
+  public double[][] diff2(double x, double h)
+  {
+	double[][] result = new double[2][2];
+	result[0][0] = (invoke(x+h, y) - 2*invoke(x, y) + invoke(x-h, y)) / (h*h);
+	result[0][1] = result[1][0] = (invoke(x+h, y+h) - invoke(x+h, y-h) - invoke(x-h, y+h) + invoke(x-h, y-h)) / (4*h*h);
+	result[1][1] = (invoke(x, y+h) - 2*invoke(x, y) + invoke(x, y-h)) / (h*h);
+	return result;
+  }
+}
